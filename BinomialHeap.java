@@ -21,6 +21,8 @@ public class BinomialHeap
 	{    
 		return; // should be replaced by student code
 	}
+		HeapNode newNode = new HeapNode();
+		HeapItem newItem = new HeapItem(newNode, key, info);
 
 	/**
 	 * 
@@ -82,7 +84,7 @@ public class BinomialHeap
 	 */
 	public int size()
 	{
-		return 42; // should be replaced by student code
+		return this.size; // should be replaced by student code
 	}
 
 	/**
@@ -110,7 +112,8 @@ public class BinomialHeap
 	 * Class implementing a node in a Binomial Heap.
 	 *  
 	 */
-	public class HeapNode{
+	public class HeapNode {
+
 		public HeapItem item;
 		public HeapNode child;
 		public HeapNode next;
@@ -122,7 +125,14 @@ public class BinomialHeap
 	 * Class implementing an item in a Binomial Heap.
 	 *  
 	 */
-	public class HeapItem{
+	public class HeapItem {
+
+		public HeapItem(HeapNode node, int key, String info) {
+			this.node = node;
+			this.key = key;
+			this.info = info;
+		}
+
 		public HeapNode node;
 		public int key;
 		public String info;
