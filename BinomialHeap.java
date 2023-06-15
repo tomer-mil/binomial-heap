@@ -150,13 +150,23 @@ public class BinomialHeap {
 		HeapNode[] arr = new HeapNode[arrSize];
 		arr[this.last.rank] = this.last;
 
-		HeapNode currNode = this.last.next;
-		while (currNode !=
+		HeapNode currNode = this.last;
+		do {
+			arr[currNode.rank] = currNode;
+			currNode = currNode.next;
+		}
+		while (currNode != this.last)
 
+		currNode = heap2.last
+		do {
+			if (arr[currNode.rank] != null) // change to is not null?
+				this.recursiveLinking(arr[currNode.rank], currNode);
+			else
+				arr[currNode.rank] = currNode;
+		}
+		while (currNode != heap2.last)
 
-
-
-		return; // should be replaced by student code
+		this.updateHeapFromArray(arr);
 	}
 
 
