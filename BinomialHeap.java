@@ -13,6 +13,17 @@ public class BinomialHeap {
 	public HeapNode min;
 	public int numOfTrees;
 
+	public BinomialHeap(int size, HeapNode last, HeapNode min, int numOfTrees) {
+		this.size = size;
+		this.last = last;
+		this.min = min;
+		this.numOfTrees = numOfTrees;
+	}
+
+	public BinomialHeap() {
+		this(0, null, null, 0);
+	}
+
 	/**
 	 * 
 	 * pre: key > 0
@@ -22,11 +33,17 @@ public class BinomialHeap {
 	 */
 	public HeapItem insert(int key, String info) 
 	{    
-		return; // should be replaced by student code
-	}
 		HeapNode newNode = new HeapNode();
 		HeapItem newItem = new HeapItem(newNode, key, info);
+		newNode.item = newItem;
+		newNode.next = newNode;
+		newNode.rank = 0;
+		BinomialHeap newHeap = new BinomialHeap(1, newNode, newNode, 1);
+		this.meld(newHeap);
 
+		return newItem; 
+	}
+		
 	/**
 	 * 
 	 * Delete the minimal item
@@ -155,16 +172,16 @@ public class BinomialHeap {
 			arr[currNode.rank] = currNode;
 			currNode = currNode.next;
 		}
-		while (currNode != this.last)
+		while (currNode != this.last);
 
-		currNode = heap2.last
+		currNode = heap2.last;
 		do {
 			if (arr[currNode.rank] != null) // change to is not null?
-				this.recursiveLinking(arr[currNode.rank], currNode);
+				this.recursiveLinking(currNode, arr);
 			else
 				arr[currNode.rank] = currNode;
 		}
-		while (currNode != heap2.last)
+		while (currNode != heap2.last);
 
 		this.updateHeapFromArray(arr);
 	}
