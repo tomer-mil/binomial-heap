@@ -134,8 +134,27 @@ public class BinomialHeap {
 	 *
 	 */
 	public void meld(BinomialHeap heap2) {
+		// TODO: Address empty heap (this or heap2)
+
+		if (this.empty() && !heap2.empty()) {
+			this.min = heap2.min;
+			this.last = heap2.last;
+			this.size = heap2.size;
+			// TODO: add num of trees
+		}
+		else if (!this.empty() && heap2.empty()) {
+			return;
+		}
+
 		int arrSize = Integer.max(this.last.rank, heap2.last.rank);
-		BinomialHeap[] arr = new BinomialHeap[arrSize];
+		HeapNode[] arr = new HeapNode[arrSize];
+		arr[this.last.rank] = this.last;
+
+		HeapNode currNode = this.last.next;
+		while (currNode !=
+
+
+
 
 		return; // should be replaced by student code
 	}
