@@ -199,4 +199,50 @@ public class BinomialHeap {
 		public String info;
 	}
 
+
+
+	// printssssssssssss TODO: DELETE!
+	public void print() {
+		System.out.println("Binomial Heap:");
+		System.out.println("Size: " + size);
+
+		if (min != null) {
+			System.out.println("Minimum Node: " + min.item.key);
+		} else {
+			System.out.println("No minimum node.");
+		}
+
+		System.out.println("Heap Nodes:");
+		if (last != null) {
+			Set<HeapNode> visited = new HashSet<>();
+			printHeapNode(last, 0, visited);
+		} else {
+			System.out.println("No heap nodes.");
+		}
+	}
+
+	private void printHeapNode(HeapNode node, int indentLevel, Set<HeapNode> visited) {
+		StringBuilder indent = new StringBuilder();
+		for (int i = 0; i < indentLevel; i++) {
+			indent.append("    ");
+		}
+
+		System.out.println(indent + "Key: " + node.item.key);
+		System.out.println(indent + "Info: " + node.item.info);
+		System.out.println(indent + "Rank: " + node.rank);
+
+		visited.add(node);
+
+		if (node.child != null && !visited.contains(node.child)) {
+			System.out.println(indent + "Child:");
+			printHeapNode(node.child, indentLevel + 1, visited);
+		}
+
+		if (node.next != null && !visited.contains(node.next)) {
+			System.out.println(indent + "Next:");
+			printHeapNode(node.next, indentLevel, visited);
+		}
+	}
 }
+
+
