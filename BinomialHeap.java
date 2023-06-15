@@ -4,11 +4,11 @@
  * An implementation of binomial heap over non-negative integers.
  * Based on exercise from previous semester.
  */
-public class BinomialHeap
-{
+public class BinomialHeap {
 	public int size;
 	public HeapNode last;
 	public HeapNode min;
+	public int numOfTrees;
 
 	/**
 	 * 
@@ -67,15 +67,76 @@ public class BinomialHeap
 		return; // should be replaced by student code
 	}
 
+	private void recursiveLinking(HeapNode tree, HeapNode[] arr) {
+		HeapNode carry = tree;
+
+		while (arr[carry.rank] != null) {
+			HeapNode curr_tree = arr[carry.rank];
+			arr[carry.rank] = null;  // Pop the current tree from array
+			carry = this.link(carry, curr_tree);
+		}
+
+		arr[carry.rank] = carry;
+	}
+
+	private HeapNode link(HeapNode xTree, HeapNode yTree) {
+
+		if (xTree.item.key > yTree.item.key) {  // Setting the tree with lower key to be the top
+			HeapNode tempTree = xTree;
+			xTree = yTree;
+			yTree = tempTree;
+		}
+
+		yTree.next = xTree.child.next;
+		xTree.child.next = yTree;
+		xTree.child = yTree;
+		yTree.parent = xTree;
+
+		return xTree;
+	}
+
+	private void updateHeapFromArray(HeapNode[] arr) {
+		int treeNumCount = 0;
+		int sizeCount = 0;
+		HeapNode firstNode = null;
+		HeapNode prevNode = null;
+
+		for (HeapNode node : arr) {
+			if (firstNode == null) {
+				firstNode = node;
+			} else {
+				prevNode.next = node;
+			}
+
+			if (this.min.item.key > node.item.key) {
+				this.min = node;
+			}
+
+			sizeCount += (int) Math.pow(2.0, node.rank);
+			treeNumCount += 1;
+
+			prevNode = node;
+		}
+
+		this.last = prevNode;
+		prevNode.next = firstNode;
+		this.size = sizeCount;
+		this.numOfTrees = treeNumCount;
+
+	}
+
 	/**
 	 * 
 	 * Meld the heap with heap2
 	 *
 	 */
-	public void meld(BinomialHeap heap2)
-	{
-		return; // should be replaced by student code   		
+	public void meld(BinomialHeap heap2) {
+		int arrSize = Integer.max(this.last.rank, heap2.last.rank);
+		BinomialHeap[] arr = new BinomialHeap[arrSize];
+
+		return; // should be replaced by student code
 	}
+
 
 	/**
 	 * 
@@ -112,7 +173,7 @@ public class BinomialHeap
 	 * Class implementing a node in a Binomial Heap.
 	 *  
 	 */
-	public class HeapNode {
+	public class HeapNode(Comperable) {
 
 		public HeapItem item;
 		public HeapNode child;
