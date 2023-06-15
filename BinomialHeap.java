@@ -1,3 +1,6 @@
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * BinomialHeap
  *
@@ -173,7 +176,7 @@ public class BinomialHeap {
 	 * Class implementing a node in a Binomial Heap.
 	 *  
 	 */
-	public class HeapNode(Comperable) {
+	public class HeapNode {
 
 		public HeapItem item;
 		public HeapNode child;
