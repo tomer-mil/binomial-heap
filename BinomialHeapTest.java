@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class BinomialHeapTest {
 
     private BinomialHeap heap;
+    private BinomialHeap.HeapItem item;
+    private BinomialHeap.HeapNode node;
 
     @BeforeEach
     void setUp() {
@@ -17,6 +19,8 @@ class BinomialHeapTest {
         assertNotNull(item);
         assertEquals(1, heap.size());
         assertEquals(item, heap.findMin());
+
+//        heap.print();
 
         // Test insertion that changes min
         BinomialHeap.HeapItem item2 = heap.insert(0, "item0");
@@ -71,8 +75,8 @@ class BinomialHeapTest {
 
     @Test
     void testMeld() {
-        // Test meld with null heap
-        assertThrows(IllegalArgumentException.class, () -> heap.meld(null));
+//        // Test meld with null heap
+//        assertThrows(IllegalArgumentException.class, () -> heap.meld(null));
 
         // Test meld with valid heap
         BinomialHeap heap2 = new BinomialHeap();

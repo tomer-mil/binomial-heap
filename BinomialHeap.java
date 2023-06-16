@@ -24,6 +24,11 @@ public class BinomialHeap {
 		this(0, null, null, 0);
 	}
 
+	@Override
+	public String toString() {
+		return "size: " + this.size + " | " + "last: " + this.last + " | " + "min: " + this.min;
+	}
+
 	/**
 	 * 
 	 * pre: key > 0
@@ -31,13 +36,14 @@ public class BinomialHeap {
 	 * Insert (key,info) into the heap and return the newly generated HeapItem.
 	 *
 	 */
-	public HeapItem insert(int key, String info) 
-	{    
+	public HeapItem insert(int key, String info) {
 		HeapNode newNode = new HeapNode();
 		HeapItem newItem = new HeapItem(newNode, key, info);
+
 		newNode.item = newItem;
 		newNode.next = newNode;
 		newNode.rank = 0;
+
 		BinomialHeap newHeap = new BinomialHeap(1, newNode, newNode, 1);
 		this.meld(newHeap);
 
@@ -62,7 +68,7 @@ public class BinomialHeap {
 	 */
 	public HeapItem findMin()
 	{
-		return null; // should be replaced by student code
+		return this.min.item; // should be replaced by student code
 	} 
 
 	/**
@@ -158,16 +164,19 @@ public class BinomialHeap {
 			this.last = heap2.last;
 			this.size = heap2.size;
 			// TODO: add num of trees
+
+			return;
 		}
 		else if (!this.empty() && heap2.empty()) {
 			return;
 		}
 
-		int arrSize = Integer.max(this.last.rank, heap2.last.rank);
+		int arrSize = Integer.max(this.last.rank, heap2.last.rank) + 1;
 		HeapNode[] arr = new HeapNode[arrSize];
 		arr[this.last.rank] = this.last;
 
 		HeapNode currNode = this.last;
+
 		do {
 			arr[currNode.rank] = currNode;
 			currNode = currNode.next;
@@ -175,11 +184,14 @@ public class BinomialHeap {
 		while (currNode != this.last);
 
 		currNode = heap2.last;
+
 		do {
 			if (arr[currNode.rank] != null) // change to is not null?
 				this.recursiveLinking(currNode, arr);
 			else
 				arr[currNode.rank] = currNode;
+
+			currNode = currNode.next;
 		}
 		while (currNode != heap2.last);
 
@@ -203,9 +215,8 @@ public class BinomialHeap {
 	 * is empty.
 	 *   
 	 */
-	public boolean empty()
-	{
-		return false; // should be replaced by student code
+	public boolean empty() {
+		return this.size == 0; // should be replaced by student code
 	}
 
 	/**
@@ -229,6 +240,15 @@ public class BinomialHeap {
 		public HeapNode next;
 		public HeapNode parent;
 		public int rank;
+
+		@Override
+		public String toString() {
+
+			int key;
+			key = item != null ? item.key : -99;
+
+			return "key: " + key;
+		}
 	}
 
 	/**
@@ -241,6 +261,17 @@ public class BinomialHeap {
 			this.node = node;
 			this.key = key;
 			this.info = info;
+		}
+
+		public HeapItem() {
+			this(null, -1, "");
+		}
+
+		@Override
+		public String toString() {
+			String currNode;
+			currNode = this.node != null ? this.node.toString() : "null";
+			return "key: " + this.key + " | " + "node: " + currNode + " | " + "info: " + this.info;
 		}
 
 		public HeapNode node;
