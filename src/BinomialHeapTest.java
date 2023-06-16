@@ -64,14 +64,25 @@ class BinomialHeapTest {
 
     @Test
     void testDecreaseKey2() {
+        // the heap's min changes due to decrease key
         heap.insert(15, "item1");
         BinomialHeap.HeapItem item = heap.insert(19, null);
         heap.insert(6, null);
-        heap.decreaseKey(item, -500);
+        heap.decreaseKey(item, 500);
         assertEquals(19-500, item.key);
         assertEquals(heap.min.item.key, item.key);
     }
 
+    @Test
+    void testDecreaseKey3() {
+        // nothing changed except the node's key
+        heap.insert(15, "item1");
+        BinomialHeap.HeapItem item1 = heap.insert(19, null);
+        BinomialHeap.HeapItem minItem = heap.insert(6, null);
+        heap.decreaseKey(item1, 3);
+        assertEquals(19-3, item1.key);
+        assertEquals(heap.min.item.key, minItem.key);
+    }
 
     @Test
     void testDelete() {
