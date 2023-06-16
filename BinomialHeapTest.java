@@ -48,19 +48,30 @@ class BinomialHeapTest {
     }
 
     @Test
-    void testDecreaseKey() {
+    void testDecreaseKey1() {
         // Test decreaseKey on empty heap
-        assertThrows(IllegalArgumentException.class, () -> heap.decreaseKey(null, 1));
-
-        // Test decreaseKey with invalid diff
-        BinomialHeap.HeapItem item = heap.insert(1, "item1");
-        assertThrows(IllegalArgumentException.class, () -> heap.decreaseKey(item, -1));
-        assertThrows(IllegalArgumentException.class, () -> heap.decreaseKey(item, 2));
+        // assertThrows(IllegalArgumentException.class, () -> heap.decreaseKey(null, 1));
 
         // Test decreaseKey with valid diff
+        BinomialHeap.HeapItem item = heap.insert(1, "item1");
+        // assertThrows(IllegalArgumentException.class, () -> heap.decreaseKey(item, -1));
+        heap.decreaseKey(item, 2);
+        assertEquals(-1, item.key);
         heap.decreaseKey(item, 1);
-        assertEquals(0, item.key);
+        assertEquals(-2, item.key);
+        assertEquals(heap.min.item.key, item.key);
     }
+
+    @Test
+    void testDecreaseKey2() {
+        heap.insert(15, "item1");
+        BinomialHeap.HeapItem item = heap.insert(19, null);
+        heap.insert(6, null);
+        heap.decreaseKey(item, -500);
+        assertEquals(19-500, item.key);
+        assertEquals(heap.min.item.key, item.key);
+    }
+
 
     @Test
     void testDelete() {

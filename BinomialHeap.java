@@ -73,6 +73,34 @@ public class BinomialHeap {
 
 	/**
 	 * 
+	 * pre: node != null or node.item.key != null
+	 * 
+	 * @param node
+	 */
+	public void shiftUp(HeapNode node) {
+		HeapNode parentNode = node.parent;
+		while (parentNode != null) {
+			if (parentNode.item.key > node.item.key) {
+				HeapItem tmpItem = node.item;
+				node.item = parentNode.item;
+				parentNode.item = tmpItem;
+				node = parentNode;
+				parentNode = parentNode.parent;
+			}
+			else {
+				break;
+			}
+		} 
+
+		// update the heap's min 
+		if (this.min.item.key > node.item.key) {
+			this.min = node;
+		}
+	}
+
+
+	/**
+	 * 
 	 * pre: 0<diff<item.key
 	 * 
 	 * Decrease the key of item by diff and fix the heap. 
@@ -80,8 +108,10 @@ public class BinomialHeap {
 	 */
 	public void decreaseKey(HeapItem item, int diff) 
 	{    
-		return; // should be replaced by student code
+		item.key -= diff;
+		this.shiftUp(item.node);
 	}
+
 
 	/**
 	 * 
