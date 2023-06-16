@@ -112,12 +112,18 @@ public class BinomialHeap {
 			xTree = yTree;
 			yTree = tempTree;
 		}
+		if (xTree.child != null) {
+			yTree.next = xTree.child.next;
+			xTree.child.next = yTree;
+			xTree.child = yTree;
+		}
+		else {
+			xTree.child = yTree;
+			yTree.next = yTree;
+		}
 
-		yTree.next = xTree.child.next;
-		xTree.child.next = yTree;
-		xTree.child = yTree;
 		yTree.parent = xTree;
-
+		xTree.rank += 1;
 		return xTree;
 	}
 
@@ -128,27 +134,31 @@ public class BinomialHeap {
 		HeapNode prevNode = null;
 
 		for (HeapNode node : arr) {
-			if (firstNode == null) {
-				firstNode = node;
-			} else {
-				prevNode.next = node;
+			if (node != null) {
+				if (firstNode == null) {
+					firstNode = node;
+					prevNode = node;
+				}
+				else {
+					prevNode.next = node;
+
+					if (this.min.item.key > node.item.key) {
+						this.min = node;
+					}
+				}
+
+				sizeCount += (int) Math.pow(2.0, node.rank);
+				treeNumCount += 1;
+
+				prevNode = node;
 			}
-
-			if (this.min.item.key > node.item.key) {
-				this.min = node;
-			}
-
-			sizeCount += (int) Math.pow(2.0, node.rank);
-			treeNumCount += 1;
-
-			prevNode = node;
 		}
 
+		if (prevNode != null)
+			prevNode.next = firstNode;
 		this.last = prevNode;
-		prevNode.next = firstNode;
 		this.size = sizeCount;
 		this.numOfTrees = treeNumCount;
-
 	}
 
 	/**
@@ -171,9 +181,8 @@ public class BinomialHeap {
 			return;
 		}
 
-		int arrSize = Integer.max(this.last.rank, heap2.last.rank) + 1;
+		int arrSize = Integer.max(this.last.rank, heap2.last.rank) + 2;
 		HeapNode[] arr = new HeapNode[arrSize];
-		arr[this.last.rank] = this.last;
 
 		HeapNode currNode = this.last;
 
