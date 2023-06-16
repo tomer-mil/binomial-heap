@@ -240,10 +240,6 @@ public class BinomialHeap {
 				}
 				else {
 					prevNode.next = node;
-
-					if (this.min.item.key > node.item.key) {
-						this.min = node;
-					}
 				}
 
 				sizeCount += (int) Math.pow(2.0, node.rank);
@@ -252,6 +248,7 @@ public class BinomialHeap {
 				prevNode = node;
 			}
 		}
+		this.min = this.findMin().node;
 
 		if (prevNode != null)
 			prevNode.next = firstNode;
