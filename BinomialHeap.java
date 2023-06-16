@@ -49,16 +49,78 @@ public class BinomialHeap {
 
 		return newItem; 
 	}
+
+	private void clearHeap() {
+		this.min = null;
+		this.last = null;
+		this.size = 0;
+		this.numOfTrees = 0;
+	}
+
+	private void disconnectChildren() {
+		HeapNode currNode = this.last;
+
+		do {
+			currNode.parent = null;
+			currNode = currNode.next;
+		}
+		while (currNode != this.last);
+	}
+
+	private int countTrees() {
+		HeapNode currNode = this.last;
+		int numOfTrees = 0;
+
+		do {
+			numOfTrees += 1;
+			currNode = currNode.next;
+		}
+		while (currNode != this.last);
+
+		return numOfTrees;
+	}
 		
 	/**
 	 * 
 	 * Delete the minimal item
 	 *
 	 */
-	public void deleteMin()
-	{
-		return; // should be replaced by student code
+	public void deleteMin() {
+		if (this.empty()) { return; } // Empty Heap quick exit
 
+		else if (this.numOfTrees == 1) { // Heap is made of only one tree
+			if (this.last.rank == 0) {  // Heap has one node so just clear it
+				this.clearHeap();
+				return;
+			}
+			this.numOfTrees = this.last.rank;
+			this.last = this.last.child;
+			this.disconnectChildren();
+			this.min = this.findMin().node;
+			this.size -= 1;
+
+		} else {  // Heap has more than 1 tree
+
+			HeapNode minToDelete = this.min;
+			HeapNode currNode = this.last.next;
+
+			// Go to one node before the minimum
+			while (currNode.next != minToDelete) {
+				currNode = currNode.next;
+			}
+
+			currNode.next = minToDelete.next; // Bypass the minimum
+			if (minToDelete == this.last) { this.last = currNode; } // If the minimum is also last then update last to be the previous node
+			this.min = this.findMin().node; // Set new min
+
+			// Generate a new heap from the deleted minimum children
+			BinomialHeap minHeap = new BinomialHeap((int) Math.pow(2, minToDelete.rank) - 1, minToDelete.child, null, minToDelete.rank);
+			minHeap.min = minHeap.findMin().node;
+			minHeap.disconnectChildren();
+
+			// Meld the two heaps
+			this.meld(minHeap);
+		}
 	}
 
 	/**
@@ -66,8 +128,16 @@ public class BinomialHeap {
 	 * Return the minimal HeapItem
 	 *
 	 */
-	public HeapItem findMin()
-	{
+	public HeapItem findMin() {
+		HeapNode currNode = this.last;
+		HeapNode currMin = this.last;
+
+		do {
+			if (currNode.item.key < currMin.item.key) { this.min = currNode; }
+			currNode = currNode.next;
+		}
+		while (currNode != this.last);
+
 		return this.min.item; // should be replaced by student code
 	} 
 
@@ -142,12 +212,12 @@ public class BinomialHeap {
 			xTree = yTree;
 			yTree = tempTree;
 		}
-		if (xTree.child != null) {
+		if (xTree.child != null) {  // If xTree has a child then add yTree to its children linked-list
 			yTree.next = xTree.child.next;
 			xTree.child.next = yTree;
 			xTree.child = yTree;
 		}
-		else {
+		else {  // xTree has no children, add yTree as his only child
 			xTree.child = yTree;
 			yTree.next = yTree;
 		}
