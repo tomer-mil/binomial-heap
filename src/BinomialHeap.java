@@ -148,7 +148,7 @@ public class BinomialHeap {
 		HeapNode currMin = this.min == null ? this.last : this.min;
 
 		do {
-			if (currNode.item.key < currMin.item.key) { currMin = currNode; }
+			if (currNode.item.key <= currMin.item.key) { currMin = currNode; }
 			currNode = currNode.next;
 		}
 		while (currNode != this.last);
@@ -165,7 +165,7 @@ public class BinomialHeap {
 	public void shiftUp(HeapNode node) {
 		HeapNode parentNode = node.parent;
 		while (parentNode != null) {
-			if (parentNode.item.key > node.item.key) {
+			if (parentNode.item.key >= node.item.key) {
 				HeapItem tmpItem = node.item;
 				node.item = parentNode.item;
 				parentNode.item = tmpItem;
@@ -178,7 +178,7 @@ public class BinomialHeap {
 		} 
 
 		// update the heap's min 
-		if (this.min.item.key > node.item.key) {
+		if (this.min.item.key >= node.item.key) {
 			this.min = node;
 		}
 	}
