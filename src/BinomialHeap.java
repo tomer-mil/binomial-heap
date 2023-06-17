@@ -221,21 +221,35 @@ public class BinomialHeap {
 
 	private HeapNode link(HeapNode xTree, HeapNode yTree) {
 
-		if (xTree.item.key > yTree.item.key) {  // Setting the tree with lower key to be the top
+		// Disconnecting xTree and yTree
+		if (xTree.next == yTree) {
+			xTree.next = yTree.next;
+		}
+		else if (yTree.next == xTree) {
+			yTree.next = xTree.next;
+		}
+
+		// Setting the tree with lower key to be the top
+		if (xTree.item.key > yTree.item.key) {
 			HeapNode tempTree = xTree;
 			xTree = yTree;
 			yTree = tempTree;
 		}
-		if (xTree.child != null) {  // If xTree has a child then add yTree to its children linked-list
+
+		// If xTree has a child then add yTree to its children linked-list
+		if (xTree.child != null) {
 			yTree.next = xTree.child.next;
 			xTree.child.next = yTree;
 			xTree.child = yTree;
 		}
-		else {  // xTree has no children, add yTree as his only child
+
+		// xTree has no children, add yTree as his only child
+		else {
 			xTree.child = yTree;
 			yTree.next = yTree;
 		}
 
+		// Connect/Reconnect xTree and yTree & update attributes
 		yTree.parent = xTree;
 		xTree.rank += 1;
 		return xTree;
@@ -292,30 +306,41 @@ public class BinomialHeap {
 		else if (!this.empty() && heap2.empty()) {
 			return;
 		}
+		///
 
 		int arrSize = Integer.max(this.last.rank, heap2.last.rank) + 2;
 		HeapNode[] arr = new HeapNode[arrSize];
+		HeapNode[] heap2Roots = new HeapNode[heap2.last.rank + 1];
+
+		int i = 0;
+		HeapNode root = heap2.last;
+
+		do {
+			heap2Roots[i] = root;
+			root = root.next;
+			i++;
+		}
+
+		while(root != heap2.last);
 
 		HeapNode currNode = this.last;
 
+		// Populating the helping array
 		do {
 			arr[currNode.rank] = currNode;
 			currNode = currNode.next;
 		}
 		while (currNode != this.last);
 
-		currNode = heap2.last;
-
-		do {
-			if (arr[currNode.rank] != null)  // change to is not null?
-				this.recursiveLinking(currNode, arr);
+		// Comparing heap2 with helping array
+		for (HeapNode node : heap2Roots) {
+			if (arr[node.rank] != null) { // change to is not null?
+				// Copy Node before insertion
+				this.recursiveLinking(node, arr);
+			}
 			else
-				arr[currNode.rank] = currNode;
-
-			currNode = currNode.next;
+				arr[node.rank] = node;
 		}
-		while (currNode != heap2.last);
-
 		this.updateHeapFromArray(arr);
 	}
 
