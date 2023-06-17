@@ -1,7 +1,4 @@
-import java.util.HashSet;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 /**
  * BinomialHeap
@@ -310,7 +307,7 @@ public class BinomialHeap {
 		currNode = heap2.last;
 
 		do {
-			if (arr[currNode.rank] != null) // change to is not null?
+			if (arr[currNode.rank] != null)  // change to is not null?
 				this.recursiveLinking(currNode, arr);
 			else
 				arr[currNode.rank] = currNode;
@@ -452,15 +449,38 @@ public class BinomialHeap {
 
 		int[] keys;
 		HeapItem[] testItems;
+		HeapItem minItem;
 		HeapItem testItem;
+		BinomialHeap multipleItemsHeap;
+
+		public Tester(int numOfKeys) {
+			this.keys = generateKeys(numOfKeys);
+			HeapItem[] testItemsArr = new HeapItem[numOfKeys];
+			BinomialHeap heap = new BinomialHeap();
+
+			for (int i = 0; i <= numOfKeys; i++) {
+				HeapItem item = new HeapItem(null, keys[i], "");
+				testItemsArr[i] = item;
+				heap.insert(testItemsArr[i].key, "");
+			}
+
+			this.minItem = testItemsArr[0];
+			this.testItems = testItemsArr;
+			this.multipleItemsHeap = heap;
+
+		}
 
 		public static int[] generateKeys(int numOfKeys) {
 			Random random = new Random();
+			int[] keys = new int[numOfKeys];
 
 			for (int i = 0; i <= numOfKeys; i++) {
-
+				keys[i] = random.nextInt();
 			}
 
+			Arrays.sort(keys);
+
+			return keys;
 		}
 	}
 }

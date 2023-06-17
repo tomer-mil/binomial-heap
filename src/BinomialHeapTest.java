@@ -1,37 +1,90 @@
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.Random;
+
+import java.util.*;
 
 
 class BinomialHeapTest {
 
+    private List<BinomialHeap.HeapItem> testedItemsList1;
+    private List<BinomialHeap.HeapItem> testedItemsList2;
     private BinomialHeap heap;
     private BinomialHeap emptyHeap;
     private BinomialHeap oneItemHeap;
     private BinomialHeap.HeapItem oneItemHeapItem;
-    private BinomialHeap multipleItemsHeap;
+    private BinomialHeap multipleItemsHeap1;
+    private BinomialHeap.HeapItem multipleItemsHeap1MinItem;
+    private BinomialHeap multipleItemsHeap2;
+    private BinomialHeap.HeapItem multipleItemsHeap2MinItem;
     private BinomialHeap.HeapItem item;
     private BinomialHeap.HeapItem illeagalItem;
     private BinomialHeap.HeapNode node;
 
-    public Random random = new Random();
+    public int[] generateKeys(int numOfKeys) {
+        Random random = new Random();
+        int[] keys = new int[numOfKeys];
 
-    private static BinomialHeap.HeapNode generateHeapNode() {
-        BinomialHeap.HeapItem item = new BinomialHeap.HeapItem();
+        for (int i = 0; i < numOfKeys; i++) {
+            keys[i] = random.nextInt(0, 500);
+        }
+
+        return keys;
     }
 
     @BeforeEach
     void setUp() {
+        int numOfKeys = 100;
+
         heap = new BinomialHeap();
-        emptyHeap = new BinomialHeap();
-        oneItemHeap = new BinomialHeap();
-        multipleItemsHeap = new BinomialHeap();
+//
+//        emptyHeap = new BinomialHeap();
+//        oneItemHeap = new BinomialHeap();
+//
+//        multipleItemsHeap1 = new BinomialHeap();
+//        multipleItemsHeap2 = new BinomialHeap();
+//
+//        testedItemsList1 = new ArrayList<>();
+//        testedItemsList2 = new ArrayList<>();
+//
+//
+//        int[] keys1 = this.generateKeys(numOfKeys);
+//        int[] keys2 = this.generateKeys(numOfKeys);
+//
+//        System.out.println("keys1: " + Arrays.toString(keys1));
+//        System.out.println("keys2: " + Arrays.toString(keys2));
+//
+//        for (int i = 0; i < numOfKeys; i++) {
+//
+//            BinomialHeap.HeapItem item1 = multipleItemsHeap1.insert(keys1[i], "");
+//            BinomialHeap.HeapItem item2 = multipleItemsHeap2.insert(keys2[i], "");
+//
+//            testedItemsList1.add(item1);
+//            testedItemsList2.add(item2);
+//
+//            if (i == 0) { this.oneItemHeapItem = oneItemHeap.insert(testedItemsList1.get(0).key, ""); }
+//        }
+//
+//        testedItemsList1.sort(Comparator.comparingInt(a -> a.key));
+//        testedItemsList2.sort(Comparator.comparingInt(a -> a.key));
+//
+//        this.multipleItemsHeap1MinItem = testedItemsList1.get(0);
+//        this.multipleItemsHeap2MinItem = testedItemsList2.get(0);
+//
+//        Arrays.sort(keys1);
+//        Arrays.sort(keys2);
 
     }
 
     @Test
     void testInsert() {
         // Test basic insertion
+
+        List<Integer> testList = Arrays.asList(349, 278, 169, 419, 44, 37, 170, 296, 457, 120, 196, 281, 118, 74, 326, 159, 122, 307, 37, 440, 94, 371, 367, 126, 50, 44, 379, 48, 129, 480, 101, 272, 302, 177, 307, 65, 91, 350, 465, 309, 80, 239, 134, 451, 456, 258, 368, 300, 91, 406, 394, 387, 235, 197, 82, 267, 134, 473, 365, 69, 434, 475, 474, 168, 132, 212, 203, 18, 495, 254, 24, 484, 149, 3, 143, 193, 88, 409, 10, 264, 247, 142, 315, 456, 320, 123, 217, 61, 418, 409, 487, 377, 20, 315, 262, 181, 352, 395, 90, 271);
+
+        for (int i = 0; i < testList.size(); i++) {
+            heap.insert(testList.get(i), "");
+        }
+
         BinomialHeap.HeapItem item = heap.insert(1, "item1");
         assertNotNull(item);
         assertEquals(1, heap.size());
