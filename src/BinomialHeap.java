@@ -1,5 +1,7 @@
 import java.util.HashSet;
 import java.util.Set;
+import java.util.HashMap;
+import java.util.Random;
 
 /**
  * BinomialHeap
@@ -281,7 +283,6 @@ public class BinomialHeap {
 	 *
 	 */
 	public void meld(BinomialHeap heap2) {
-		// TODO: Address empty heap (this or heap2)
 
 		if (this.empty() && !heap2.empty()) {
 			this.min = heap2.min;
@@ -444,6 +445,22 @@ public class BinomialHeap {
 		if (node.next != null && !visited.contains(node.next)) {
 			System.out.println(indent + "Next:");
 			printHeapNode(node.next, indentLevel, visited);
+		}
+	}
+
+	public class Tester {
+
+		int[] keys;
+		HeapItem[] testItems;
+		HeapItem testItem;
+
+		public static int[] generateKeys(int numOfKeys) {
+			Random random = new Random();
+
+			for (int i = 0; i <= numOfKeys; i++) {
+
+			}
+
 		}
 	}
 }

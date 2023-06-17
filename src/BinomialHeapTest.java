@@ -1,15 +1,32 @@
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.Random;
+
 
 class BinomialHeapTest {
 
     private BinomialHeap heap;
+    private BinomialHeap emptyHeap;
+    private BinomialHeap oneItemHeap;
+    private BinomialHeap.HeapItem oneItemHeapItem;
+    private BinomialHeap multipleItemsHeap;
     private BinomialHeap.HeapItem item;
+    private BinomialHeap.HeapItem illeagalItem;
     private BinomialHeap.HeapNode node;
+
+    public Random random = new Random();
+
+    private static BinomialHeap.HeapNode generateHeapNode() {
+        BinomialHeap.HeapItem item = new BinomialHeap.HeapItem();
+    }
 
     @BeforeEach
     void setUp() {
         heap = new BinomialHeap();
+        emptyHeap = new BinomialHeap();
+        oneItemHeap = new BinomialHeap();
+        multipleItemsHeap = new BinomialHeap();
+
     }
 
     @Test
