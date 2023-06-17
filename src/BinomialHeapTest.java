@@ -145,4 +145,49 @@ class BinomialHeapTest {
         assertEquals(1, heap.numTrees());
     }
 
+    @Test
+    void testOneItemHeapFull() {
+        BinomialHeap.HeapItem origItem = oneItemHeapItem;
+
+        // insert larger item
+        BinomialHeap.HeapItem item1 = oneItemHeap.insert(origItem.key + 1, "");
+        assertEquals(oneItemHeap.min, origItem.node); // minimun doesn't change
+        assertEquals(oneItemHeap.size, 2); 
+
+        // new item is decreased to be the new minimum
+        oneItemHeap.decreaseKey(item1, 2); 
+        assertEquals(oneItemHeap.min, item1.node); // minimun should change
+        assertEquals(oneItemHeap.min.item.key, item1.key);
+        assertEquals(item1.node.rank, 1); // item1 is the root
+        assertEquals(origItem.node.rank, 0);
+
+        // delete the minimum (the new item)
+        oneItemHeap.delete(item1);
+        assertEquals(oneItemHeap.size, 1); 
+        assertEquals(oneItemHeap.min, origItem.node); // minimum is the origin item again
+        
+        // insert smaller item
+        BinomialHeap.HeapItem item2 = oneItemHeap.insert(origItem.key - 1, "");
+        assertEquals(oneItemHeap.min, item2.node); // minimun should change
+        assertEquals(item2.node.rank, 1);
+
+        // delete the minimum (item2)
+        oneItemHeap.deleteMin();
+        assertEquals(oneItemHeap.min, origItem.node);
+        assertEquals(oneItemHeap.last, origItem.node);
+        assertEquals(oneItemHeap.size, 1);
+
+        // delete the original item (the heap supposed to be empty after deletion)
+        oneItemHeap.deleteMin();
+        assertEquals(oneItemHeap.min, null);
+        assertEquals(oneItemHeap.last, null);
+        assertEquals(oneItemHeap.size, 0);
+        assertEquals(oneItemHeap.numOfTrees, 0);
+    }
+
+    @Test
+    void testmultipleItemsHeap() {
+        
+    }
+
 }
