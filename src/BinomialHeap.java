@@ -141,6 +141,7 @@ public class BinomialHeap {
 	 *
 	 */
 	public HeapItem findMin() {
+		// TODO: Address findMin on an empty array
 		HeapNode currNode = this.last;
 		HeapNode currMin = this.min == null ? this.last : this.min;
 
