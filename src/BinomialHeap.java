@@ -116,6 +116,12 @@ public class BinomialHeap {
 			this.numOfTrees -= 1;
 
 			// Generate a new heap from the deleted minimum children
+
+			// if we delete the last node we
+			if (minToDelete.rank == 0) { 
+				return;
+			}
+
 			BinomialHeap minHeap = new BinomialHeap((int) Math.pow(2, minToDelete.rank) - 1, minToDelete.child, null, minToDelete.rank);
 			minHeap.min = minHeap.findMin().node;
 			minHeap.disconnectChildren();
@@ -142,6 +148,11 @@ public class BinomialHeap {
 	 */
 	public HeapItem findMin() {
 		// TODO: Address findMin on an empty array
+		if (this.empty()) {
+			return null;
+		}
+
+
 		HeapNode currNode = this.last;
 		HeapNode currMin = this.min == null ? this.last : this.min;
 
@@ -166,7 +177,9 @@ public class BinomialHeap {
 			if (parentNode.item.key >= node.item.key) {
 				HeapItem tmpItem = node.item;
 				node.item = parentNode.item;
+				node.item.node = node;
 				parentNode.item = tmpItem;
+				parentNode.item.node = parentNode;
 				node = parentNode;
 				parentNode = parentNode.parent;
 			}
@@ -295,8 +308,11 @@ public class BinomialHeap {
 	 *
 	 */
 	public void meld(BinomialHeap heap2) {
+		if (this.empty() && heap2.empty()) { // meld two empty heaps
+			return;
+		}
 
-		if (this.empty() && !heap2.empty()) {
+		else if (this.empty() && !heap2.empty()) {
 			this.min = heap2.min;
 			this.last = heap2.last;
 			this.size = heap2.size;
