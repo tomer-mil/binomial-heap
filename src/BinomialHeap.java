@@ -94,6 +94,7 @@ public class BinomialHeap {
 			this.numOfTrees = this.last.rank;
 			this.last = this.last.child;
 			this.disconnectChildren();
+			this.min = null;
 			this.min = this.findMin().node;
 			this.size -= 1;
 
@@ -327,7 +328,7 @@ public class BinomialHeap {
 
 		int arrSize = Integer.max(this.last.rank, heap2.last.rank) + 2;
 		HeapNode[] arr = new HeapNode[arrSize];
-		HeapNode[] heap2Roots = new HeapNode[heap2.last.rank + 1];
+		HeapNode[] heap2Roots = new HeapNode[heap2.numOfTrees];
 
 		int i = 0;
 		HeapNode root = heap2.last;
