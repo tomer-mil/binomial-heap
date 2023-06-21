@@ -14,12 +14,14 @@ public class BinomialHeapTheory {
 	public HeapNode last;
 	public HeapNode min;
 	public int numOfTrees;
+	public int numOfLinks;
 
 	public BinomialHeapTheory(int size, HeapNode last, HeapNode min, int numOfTrees) {
 		this.size = size;
 		this.last = last;
 		this.min = min;
 		this.numOfTrees = numOfTrees;
+		this.numOfLinks = 0;
 	}
 
 	public BinomialHeapTheory() {
@@ -284,6 +286,8 @@ public class BinomialHeapTheory {
 		// Connect/Reconnect xTree and yTree & update attributes
 		yTree.parent = xTree;
 		xTree.rank += 1;
+
+		this.numOfLinks += 1;
 		return xTree;
 	}
 
