@@ -14,12 +14,14 @@ public class BinomialHeapTheory {
 	public HeapNode last;
 	public HeapNode min;
 	public int numOfTrees;
+	public int sumRanksDeleted;
 
 	public BinomialHeapTheory(int size, HeapNode last, HeapNode min, int numOfTrees) {
 		this.size = size;
 		this.last = last;
 		this.min = min;
 		this.numOfTrees = numOfTrees;
+		this.sumRanksDeleted = 0;
 	}
 
 	public BinomialHeapTheory() {
@@ -233,6 +235,7 @@ public class BinomialHeapTheory {
 	 *
 	 */
 	public void delete(HeapItem item) {
+		this.sumRanksDeleted += item.node.rank;
 		this.decreaseKey(item, item.key);
 		this.deleteMin();
 	}
