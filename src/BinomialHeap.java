@@ -43,8 +43,22 @@ public class BinomialHeap {
 		newNode.next = newNode;
 		newNode.rank = 0;
 
-		BinomialHeap newHeap = new BinomialHeap(1, newNode, newNode, 1);
-		this.meld(newHeap);
+		if (this.size % 2 == 0 && this.size > 0) {  // Array has an even amount of items
+			newNode.next = this.last.next;
+			this.last.next = newNode;
+			this.size += 1;
+			this.numOfTrees += 1;
+
+			if (this.min.item.key > key) {
+				this.min = newNode;
+			}
+
+		}
+
+		else {
+			BinomialHeap newHeap = new BinomialHeap(1, newNode, newNode, 1);
+			this.meld(newHeap);
+		}
 
 		return newItem; 
 	}
@@ -324,6 +338,7 @@ public class BinomialHeap {
 		else if (!this.empty() && heap2.empty()) {
 			return;
 		}
+
 		///
 
 		int arrSize = Integer.max(this.last.rank, heap2.last.rank) + 2;
