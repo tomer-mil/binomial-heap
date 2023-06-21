@@ -14,6 +14,7 @@ public class BinomialHeapTheory {
 	public HeapNode last;
 	public HeapNode min;
 	public int numOfTrees;
+	public int numOfLinks;
 	public int sumRanksDeleted;
 
 	public BinomialHeapTheory(int size, HeapNode last, HeapNode min, int numOfTrees) {
@@ -21,6 +22,7 @@ public class BinomialHeapTheory {
 		this.last = last;
 		this.min = min;
 		this.numOfTrees = numOfTrees;
+		this.numOfLinks = 0;
 		this.sumRanksDeleted = 0;
 	}
 
@@ -287,6 +289,8 @@ public class BinomialHeapTheory {
 		// Connect/Reconnect xTree and yTree & update attributes
 		yTree.parent = xTree;
 		xTree.rank += 1;
+
+		this.numOfLinks += 1;
 		return xTree;
 	}
 
