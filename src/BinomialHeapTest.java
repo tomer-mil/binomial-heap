@@ -134,8 +134,9 @@ class BinomialHeapTheoryTest {
 
     @Test
     void testTheoryInsert() {
-        int i = 1;
+        int i = 5;
         ArrayList<Integer> theoryKeys = this.generateTheoryKeys(i);
+
         for (int key : theoryKeys) {
             this.theoryTestingHeap.insert(key, "");
         }

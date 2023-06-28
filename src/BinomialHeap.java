@@ -1,5 +1,3 @@
-import java.util.*;
-
 /**
  * BinomialHeap
  *
@@ -20,7 +18,6 @@ public class BinomialHeap {
 	}
 
 	public BinomialHeap() {
-		this(0, null, null, 0);
 	}
 
 	@Override
@@ -436,6 +433,10 @@ public class BinomialHeap {
 	 */
 	public class HeapItem {
 
+		public HeapNode node;
+		public int key;
+		public String info;
+
 		public HeapItem(HeapNode node, int key, String info) {
 			this.node = node;
 			this.key = key;
@@ -451,94 +452,6 @@ public class BinomialHeap {
 			String currNode;
 			currNode = this.node != null ? this.node.toString() : "null";
 			return "key: " + this.key + " | " + "node: " + currNode + " | " + "info: " + this.info;
-		}
-
-		public HeapNode node;
-		public int key;
-		public String info;
-	}
-
-
-
-	// printssssssssssss TODO: DELETE!
-	public void print() {
-		System.out.println("Binomial Heap:");
-		System.out.println("Size: " + size);
-
-		if (min != null) {
-			System.out.println("Minimum Node: " + min.item.key);
-		} else {
-			System.out.println("No minimum node.");
-		}
-
-		System.out.println("Heap Nodes:");
-		if (last != null) {
-			Set<HeapNode> visited = new HashSet<>();
-			printHeapNode(last, 0, visited);
-		} else {
-			System.out.println("No heap nodes.");
-		}
-	}
-
-	private void printHeapNode(HeapNode node, int indentLevel, Set<HeapNode> visited) {
-		StringBuilder indent = new StringBuilder();
-		for (int i = 0; i < indentLevel; i++) {
-			indent.append("    ");
-		}
-
-		System.out.println(indent + "Key: " + node.item.key);
-		System.out.println(indent + "Info: " + node.item.info);
-		System.out.println(indent + "Rank: " + node.rank);
-
-		visited.add(node);
-
-		if (node.child != null && !visited.contains(node.child)) {
-			System.out.println(indent + "Child:");
-			printHeapNode(node.child, indentLevel + 1, visited);
-		}
-
-		if (node.next != null && !visited.contains(node.next)) {
-			System.out.println(indent + "Next:");
-			printHeapNode(node.next, indentLevel, visited);
-		}
-	}
-
-	public class Tester {
-
-		int[] keys;
-		HeapItem[] testItems;
-		HeapItem minItem;
-		HeapItem testItem;
-		BinomialHeap multipleItemsHeap;
-
-		public Tester(int numOfKeys) {
-			this.keys = generateKeys(numOfKeys);
-			HeapItem[] testItemsArr = new HeapItem[numOfKeys];
-			BinomialHeap heap = new BinomialHeap();
-
-			for (int i = 0; i <= numOfKeys; i++) {
-				HeapItem item = new HeapItem(null, keys[i], "");
-				testItemsArr[i] = item;
-				heap.insert(testItemsArr[i].key, "");
-			}
-
-			this.minItem = testItemsArr[0];
-			this.testItems = testItemsArr;
-			this.multipleItemsHeap = heap;
-
-		}
-
-		public static int[] generateKeys(int numOfKeys) {
-			Random random = new Random();
-			int[] keys = new int[numOfKeys];
-
-			for (int i = 0; i <= numOfKeys; i++) {
-				keys[i] = random.nextInt();
-			}
-
-			Arrays.sort(keys);
-
-			return keys;
 		}
 	}
 }
