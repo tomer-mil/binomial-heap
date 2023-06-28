@@ -10,7 +10,9 @@ public class BinomialHeap {
 	public HeapNode min;
 	public int numOfTrees;
 
+
 	public BinomialHeap(int size, HeapNode last, HeapNode min, int numOfTrees) {
+
 		this.size = size;
 		this.last = last;
 		this.min = min;
@@ -30,7 +32,7 @@ public class BinomialHeap {
 	 * pre: key > 0
 	 *
 	 * Insert (key,info) into the heap and return the newly generated HeapItem.
-	 *
+	 * Complexity: O(log(n)) WC
 	 */
 	public HeapItem insert(int key, String info) {
 		HeapNode newNode = new HeapNode();
@@ -60,6 +62,13 @@ public class BinomialHeap {
 		return newItem; 
 	}
 
+	/**
+	 *
+	 * Clears the heap from items and restarts counters
+	 *
+	 * Complexity: O(1)
+	 *
+	 */
 	private void clearHeap() {
 		this.min = null;
 		this.last = null;
@@ -67,6 +76,13 @@ public class BinomialHeap {
 		this.numOfTrees = 0;
 	}
 
+	/**
+	 *
+	 * Starting from last node, disconnects roots from their parents
+	 *
+	 * Complexity: (log(n))
+	 *
+	 */
 	private void disconnectChildren() {
 		HeapNode currNode = this.last;
 
@@ -77,21 +93,11 @@ public class BinomialHeap {
 		while (currNode != this.last);
 	}
 
-	private int countTrees() {
-		HeapNode currNode = this.last;
-		int numOfTrees = 0;
-
-		do {
-			numOfTrees += 1;
-			currNode = currNode.next;
-		}
-		while (currNode != this.last);
-
-		return numOfTrees;
-	}
 	/**
-	 * 
+	 *
 	 * Delete the minimal item
+	 *
+	 * Complexity:
 	 *
 	 */
 	public void deleteMin() {
@@ -143,27 +149,16 @@ public class BinomialHeap {
 		}
 	}
 
-	private HeapNode clearMin() {
-		HeapItem minItem = new HeapItem();
-		HeapNode minNode = new HeapNode();
-		minItem.node = minNode;
-		minNode.item = minItem;
-		this.min = minNode;
-
-		return minNode;
-	}
-
 	/**
 	 * 
 	 * Return the minimal HeapItem
 	 *
 	 */
 	public HeapItem findMin() {
-		// TODO: Address findMin on an empty array
+
 		if (this.empty()) {
 			return null;
 		}
-
 
 		HeapNode currNode = this.last;
 		HeapNode currMin = this.min == null ? this.last : this.min;
