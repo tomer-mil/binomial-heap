@@ -80,7 +80,7 @@ public class BinomialHeap {
 	 *
 	 * Starting from last node, disconnects roots from their parents
 	 *
-	 * Complexity: (log(n))
+	 * Complexity: O(log(n))
 	 *
 	 */
 	private void disconnectChildren() {
@@ -97,7 +97,7 @@ public class BinomialHeap {
 	 *
 	 * Delete the minimal item
 	 *
-	 * Complexity:
+	 * Complexity: O(log(n))
 	 *
 	 */
 	public void deleteMin() {
@@ -153,6 +153,8 @@ public class BinomialHeap {
 	 * 
 	 * Return the minimal HeapItem
 	 *
+	 * Complexity: O(log(n))
+	 *
 	 */
 	public HeapItem findMin() {
 
@@ -169,13 +171,15 @@ public class BinomialHeap {
 		}
 		while (currNode != this.last);
 
-		return currMin.item; // should be replaced by student code
+		return currMin.item;
 	}
 
 	/**
 	 * 
 	 * pre: node != null or node.item.key != null
-	 * 
+	 *
+	 * Complexity: O(log(n))
+	 *
 	 * @param node
 	 */
 	public void shiftUp(HeapNode node) {
@@ -205,6 +209,8 @@ public class BinomialHeap {
 	/**
 	 * 
 	 * pre: 0<diff<item.key
+	 *
+	 * Complexity: O(log(n))
 	 * 
 	 * Decrease the key of item by diff and fix the heap. 
 	 * 
@@ -220,12 +226,22 @@ public class BinomialHeap {
 	 * 
 	 * Delete the item from the heap.
 	 *
+	 * Complexity: O(log(n))
+	 * 
 	 */
 	public void delete(HeapItem item) {
 		this.decreaseKey(item, item.key);
 		this.deleteMin();
 	}
 
+	/**
+	 * 
+	 * this function runs the linking needed for each tree that
+	 * needs to be linked with another tree of the same degree
+	 *
+	 * Complexity: O(log(n))
+	 * 
+	 */
 	private void recursiveLinking(HeapNode tree, HeapNode[] arr) {
 		HeapNode carry = tree;
 
@@ -240,6 +256,13 @@ public class BinomialHeap {
 		if (this.last.rank < carry.rank) { this.last = carry; }
 	}
 
+	/**
+	 * 
+	 * links teo trees of the same degree
+	 *
+	 * Complexity: O(1)
+	 * 
+	 */
 	private HeapNode link(HeapNode xTree, HeapNode yTree) {
 
 		// Disconnecting xTree and yTree
@@ -276,6 +299,13 @@ public class BinomialHeap {
 		return xTree;
 	}
 
+	/**
+	 * 
+	 * update the heap according to the array
+	 *
+	 * Complexity: O(log(n))
+	 * 
+	 */
 	private void updateHeapFromArray(HeapNode[] arr) {
 		int treeNumCount = 0;
 		int sizeCount = 0;
