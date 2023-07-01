@@ -343,6 +343,8 @@ public class BinomialHeap {
 	 * 
 	 * Meld the heap with heap2
 	 *
+	 * Complexity: O(log(n))
+	 * 
 	 */
 	public void meld(BinomialHeap heap2) {
 		if (this.empty() && heap2.empty()) { // meld two empty heaps
@@ -403,10 +405,11 @@ public class BinomialHeap {
 	/**
 	 * 
 	 * Return the number of elements in the heap
-	 *   
+	 *
+	 * Complexity: O(1)
+	 *    
 	 */
-	public int size()
-	{
+	public int size() {
 		return this.size; // should be replaced by student code
 	}
 
@@ -414,7 +417,9 @@ public class BinomialHeap {
 	 * 
 	 * The method returns true if and only if the heap
 	 * is empty.
-	 *   
+	 *
+	 * Complexity: O(1)
+	 *    
 	 */
 	public boolean empty() {
 		return this.size == 0; // should be replaced by student code
@@ -423,10 +428,11 @@ public class BinomialHeap {
 	/**
 	 * 
 	 * Return the number of trees in the heap.
-	 * 
+	 *
+	 * Complexity: O(1)
+	 *  
 	 */
-	public int numTrees()
-	{
+	public int numTrees() {
 		return this.numOfTrees; // should be replaced by student code
 	}
 
