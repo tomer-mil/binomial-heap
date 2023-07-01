@@ -4,21 +4,23 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 
 
-class BinomialHeapTest {
+class BinomialHeapTheoryTest {
 
-    private List<BinomialHeap.HeapItem> testedItemsList1;
-    private List<BinomialHeap.HeapItem> testedItemsList2;
-    private BinomialHeap heap;
-    private BinomialHeap emptyHeap;
-    private BinomialHeap oneItemHeap;
-    private BinomialHeap.HeapItem oneItemHeapItem;
-    private BinomialHeap multipleItemsHeap1;
-    private BinomialHeap.HeapItem multipleItemsHeap1MinItem;
-    private BinomialHeap multipleItemsHeap2;
-    private BinomialHeap.HeapItem multipleItemsHeap2MinItem;
-    private BinomialHeap.HeapItem item;
-    private BinomialHeap.HeapItem illeagalItem;
-    private BinomialHeap.HeapNode node;
+    private List<BinomialHeapTheory.HeapItem> testedItemsList1;
+    private List<BinomialHeapTheory.HeapItem> testedItemsList2;
+    private List<BinomialHeapTheory.HeapItem> theoryTestingItemList;
+    private BinomialHeapTheory heap;
+    private BinomialHeapTheory emptyHeap;
+    private BinomialHeapTheory oneItemHeap;
+    private BinomialHeapTheory.HeapItem oneItemHeapItem;
+    private BinomialHeapTheory multipleItemsHeap1;
+    private BinomialHeapTheory.HeapItem multipleItemsHeap1MinItem;
+    private BinomialHeapTheory multipleItemsHeap2;
+    private BinomialHeapTheory.HeapItem multipleItemsHeap2MinItem;
+    private BinomialHeapTheory.HeapItem item;
+    private BinomialHeapTheory.HeapItem illeagalItem;
+    private BinomialHeapTheory.HeapNode node;
+    private BinomialHeapTheory theoryTestingHeap;
 
     public int[] generateKeys(int numOfKeys) {
         Random random = new Random();
@@ -31,18 +33,28 @@ class BinomialHeapTest {
         return keys;
     }
 
-    public int countTreesFromList(List<BinomialHeap.HeapItem> itemList) {
+    public ArrayList<Integer> generateTheoryKeys(int i) {
+        ArrayList<Integer> keys = new ArrayList<>();
+        int totalNumOfKeys = (int) Math.pow(3, i + 5) - 1;
+
+        for (int j = 0; j <= totalNumOfKeys; j++) {
+            keys.add(j);
+        }
+        return keys;
+    }
+
+    public int countTreesFromList(List<BinomialHeapTheory.HeapItem> itemList) {
         return Integer.toBinaryString(itemList.size()).replace("0", "").length();
     }
 
-    public void clearHeapUsingDelete(BinomialHeap heap, List<BinomialHeap.HeapItem> itemList) {
-        for (BinomialHeap.HeapItem item : itemList) {
+    public void clearHeapUsingDelete(BinomialHeapTheory heap, List<BinomialHeapTheory.HeapItem> itemList) {
+        for (BinomialHeapTheory.HeapItem item : itemList) {
             heap.delete(item);
         }
     }
 
-    public void clearHeapUsingDeleteMin(BinomialHeap heap, List<BinomialHeap.HeapItem> itemList) {
-        for (BinomialHeap.HeapItem item : itemList) {
+    public void clearHeapUsingDeleteMin(BinomialHeapTheory heap, List<BinomialHeapTheory.HeapItem> itemList) {
+        for (BinomialHeapTheory.HeapItem item : itemList) {
             heap.deleteMin();
         }
     }
@@ -51,13 +63,16 @@ class BinomialHeapTest {
     void setUp() {
         int numOfKeys = 100;
 
-        heap = new BinomialHeap();
+        heap = new BinomialHeapTheory();
 
-        emptyHeap = new BinomialHeap();
-        oneItemHeap = new BinomialHeap();
+        emptyHeap = new BinomialHeapTheory();
+        oneItemHeap = new BinomialHeapTheory();
 
-        multipleItemsHeap1 = new BinomialHeap();
-        multipleItemsHeap2 = new BinomialHeap();
+        multipleItemsHeap1 = new BinomialHeapTheory();
+        multipleItemsHeap2 = new BinomialHeapTheory();
+
+        theoryTestingHeap = new BinomialHeapTheory();
+
 
         testedItemsList1 = new ArrayList<>();
         testedItemsList2 = new ArrayList<>();
@@ -66,19 +81,22 @@ class BinomialHeapTest {
         int[] keys1 = this.generateKeys(numOfKeys);
         int[] keys2 = this.generateKeys(numOfKeys);
 
-        System.out.println("keys1: " + Arrays.toString(keys1));
-        System.out.println("keys2: " + Arrays.toString(keys2));
+//        System.out.println("keys1: " + Arrays.toString(keys1));
+//        System.out.println("keys2: " + Arrays.toString(keys2));
 
         for (int i = 0; i < numOfKeys; i++) {
 
-            BinomialHeap.HeapItem item1 = multipleItemsHeap1.insert(keys1[i], "");
-            BinomialHeap.HeapItem item2 = multipleItemsHeap2.insert(keys2[i], "");
+            BinomialHeapTheory.HeapItem item1 = multipleItemsHeap1.insert(keys1[i], "");
+            BinomialHeapTheory.HeapItem item2 = multipleItemsHeap2.insert(keys2[i], "");
 
             testedItemsList1.add(item1);
             testedItemsList2.add(item2);
 
             if (i == 0) { this.oneItemHeapItem = oneItemHeap.insert(testedItemsList1.get(0).key, ""); }
         }
+
+
+
 
         testedItemsList1.sort(Comparator.comparingInt(a -> a.key));
         testedItemsList2.sort(Comparator.comparingInt(a -> a.key));
@@ -100,7 +118,7 @@ class BinomialHeapTest {
             heap.insert(testList.get(i), "");
         }
 
-        BinomialHeap.HeapItem item = heap.insert(1, "item1");
+        BinomialHeapTheory.HeapItem item = heap.insert(1, "item1");
         assertNotNull(item);
         assertEquals(testList.size() + 1, heap.size());
         assertEquals(item, heap.findMin());
@@ -108,10 +126,21 @@ class BinomialHeapTest {
 //        heap.print();
 
         // Test insertion that changes min
-        BinomialHeap.HeapItem item2 = heap.insert(0, "item0");
+        BinomialHeapTheory.HeapItem item2 = heap.insert(0, "item0");
         assertNotNull(item2);
         assertEquals(2 + testList.size(), heap.size());
         assertEquals(item2, heap.findMin());
+    }
+
+    @Test
+    void testTheoryInsert() {
+        int i = 5;
+        ArrayList<Integer> theoryKeys = this.generateTheoryKeys(i);
+
+        for (int key : theoryKeys) {
+            this.theoryTestingHeap.insert(key, "");
+        }
+        System.out.println("Number of links: " + this.theoryTestingHeap.numOfLinks);
     }
 
     @Test
@@ -144,7 +173,7 @@ class BinomialHeapTest {
         // assertThrows(IllegalArgumentException.class, () -> heap.decreaseKey(null, 1));
 
         // Test decreaseKey with valid diff
-        BinomialHeap.HeapItem item = heap.insert(1, "item1");
+        BinomialHeapTheory.HeapItem item = heap.insert(1, "item1");
         // assertThrows(IllegalArgumentException.class, () -> heap.decreaseKey(item, -1));
         heap.decreaseKey(item, 2);
         assertEquals(-1, item.key);
@@ -157,7 +186,7 @@ class BinomialHeapTest {
     void testDecreaseKey2() {
         // the heap's min changes due to decrease key
         heap.insert(15, "item1");
-        BinomialHeap.HeapItem item = heap.insert(19, null);
+        BinomialHeapTheory.HeapItem item = heap.insert(19, null);
         heap.insert(6, null);
         heap.decreaseKey(item, 500);
         assertEquals(19-500, item.key);
@@ -168,8 +197,8 @@ class BinomialHeapTest {
     void testDecreaseKey3() {
         // nothing changed except the node's key
         heap.insert(15, "item1");
-        BinomialHeap.HeapItem item1 = heap.insert(19, null);
-        BinomialHeap.HeapItem minItem = heap.insert(6, null);
+        BinomialHeapTheory.HeapItem item1 = heap.insert(19, null);
+        BinomialHeapTheory.HeapItem minItem = heap.insert(6, null);
         heap.decreaseKey(item1, 3);
         assertEquals(19-3, item1.key);
         assertEquals(heap.min.item.key, minItem.key);
@@ -181,7 +210,7 @@ class BinomialHeapTest {
 //        assertThrows(IllegalArgumentException.class, () -> heap.delete(null));
 
         // Test delete with valid item
-        BinomialHeap.HeapItem item = heap.insert(1, "item1");
+        BinomialHeapTheory.HeapItem item = heap.insert(1, "item1");
         heap.delete(item);
         assertEquals(0, heap.size());
 
@@ -199,7 +228,7 @@ class BinomialHeapTest {
 //        assertThrows(IllegalArgumentException.class, () -> heap.meld(null));
 
         // Test meld with valid heap
-        BinomialHeap heap2 = new BinomialHeap();
+        BinomialHeapTheory heap2 = new BinomialHeapTheory();
         heap2.insert(2, "item2");
         heap.meld(heap2);
         assertEquals(1, heap.size());
@@ -231,10 +260,10 @@ class BinomialHeapTest {
 
     @Test
     void testOneItemHeapFull() {
-        BinomialHeap.HeapItem origItem = oneItemHeapItem;
+        BinomialHeapTheory.HeapItem origItem = oneItemHeapItem;
 
         // insert larger item
-        BinomialHeap.HeapItem item1 = oneItemHeap.insert(origItem.key + 1, "");
+        BinomialHeapTheory.HeapItem item1 = oneItemHeap.insert(origItem.key + 1, "");
         assertEquals(oneItemHeap.min, origItem.node); // minimun doesn't change
         assertEquals(oneItemHeap.size, 2); 
 
@@ -251,7 +280,7 @@ class BinomialHeapTest {
         assertEquals(oneItemHeap.min, origItem.node); // minimum is the origin item again
         
         // insert smaller item
-        BinomialHeap.HeapItem item2 = oneItemHeap.insert(origItem.key - 1, "");
+        BinomialHeapTheory.HeapItem item2 = oneItemHeap.insert(origItem.key - 1, "");
         assertEquals(oneItemHeap.min, item2.node); // minimun should change
         assertEquals(item2.node.rank, 1);
 
