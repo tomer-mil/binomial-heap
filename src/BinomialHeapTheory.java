@@ -23,7 +23,6 @@ public class BinomialHeapTheory {
 		this.min = min;
 		this.numOfTrees = numOfTrees;
 		this.numOfLinks = 0;
-		this.sumRanksDeleted = 0;
 	}
 
 	public BinomialHeapTheory() {
@@ -237,7 +236,6 @@ public class BinomialHeapTheory {
 	 *
 	 */
 	public void delete(HeapItem item) {
-		this.sumRanksDeleted += item.node.rank;
 		this.decreaseKey(item, item.key);
 		this.deleteMin();
 	}
